@@ -1,0 +1,17 @@
+import remiseria.*
+import objectCombi.*
+import adaptaciones.*
+
+describe "Remisería ChasquiCoop" {
+
+  test "Torino rey de copas" {
+    const torinoReyDeCopas = new Torino(color = "Rojo", autonomia = 300, velocidadMax = 120)
+    assert.equals("Rojo", torinoReyDeCopas.color())
+    assert.equals(300, torinoReyDeCopas.autonomia())
+    assert.equals(120, torinoReyDeCopas.velocidadMax())
+    assert.equals(4, torinoReyDeCopas.capacidad())
+    assert.notThat(torinoReyDeCopas.puedeLlevarSillaDeRueda())
+    assert.that(torinoReyDeCopas.esRuidoso())
+  }
+
+}
