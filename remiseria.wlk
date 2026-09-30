@@ -110,3 +110,56 @@ object combiAdaptable {
 }
 
 //Punto 2 Reservas --------------------------
+class Reserva {
+  var cantPersonas
+  var distanciaARecorrer
+  var tiempoMaximoViaje
+  var coloresContraIndicados
+  var necesitaVehiculoNoRuidoso
+  var puedeTransportaSilla
+
+  method puedeSerCumplidaPorUn(vehiculo) {
+    return self.puedeCumplirCapacidadEn(vehiculo) && 
+           self.puedeCumplirAutonomiaEn(vehiculo) &&
+           self.esVelocidadMaxMayor(vehiculo)     &&
+           self.esVehiculoRespetuoso(vehiculo)    
+  }
+
+  method puedeCumplirCapacidadEn(vehiculo) {
+    return vehiculo.capacidad() >= cantPersonas
+  }
+
+  method puedeCumplirAutonomiaEn(vehiculo) {
+    return vehiculo.autonomia() >= distanciaARecorrer
+  }
+
+  method esVelocidadMaxMayor(vehiculo) {
+    return vehiculo.velocidadMax() >= self.velocidadPromedio()
+  }
+
+  method velocidadPromedio() {
+    return 10 + distanciaARecorrer / tiempoMaximoViaje
+  }
+
+  method esVehiculoRespetuoso(vehiculo) {
+    return self.esDeVehiculoDiferenteColor(vehiculo)   && 
+           self.puedeTransportarSillaDeRueda(vehiculo) &&
+           self.esVehiculoNoRuidoso(vehiculo)
+  }
+
+  method esDeVehiculoDiferenteColor(vehiculo) {
+    return coloresContraIndicados.all({color => self.esDeDiferenteColor(vehiculo,color)})
+  }
+
+  method esDeDiferenteColor(vehiculo,color) {
+    return vehiculo.color() != color
+  }
+
+  method puedeTransportarSillaDeRueda(vehiculo) {
+    return not puedeTransportaSilla or vehiculo.puedeLlevarSillaDeRueda()
+  }
+
+  method esVehiculoNoRuidoso(vehiculo) {
+    return not necesitaVehiculoNoRuidoso or not vehiculo.esRuidoso()
+  }
+}

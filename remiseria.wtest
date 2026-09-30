@@ -78,4 +78,55 @@ describe "Remisería ChasquiCoop" {
     assert.notThat(combiAdaptable.puedeLlevarSillaDeRueda())
     assert.that(combiAdaptable.esRuidoso())
   }
+
+  test "Reserva exigente cumplida sin inconvenientes" {
+    combiAdaptable.interior(accessible)
+    combiAdaptable.motor(urbano)
+    const reservaExigente = new Reserva(cantPersonas = 5, distanciaARecorrer = 480, tiempoMaximoViaje = 4, 
+                                        necesitaVehiculoNoRuidoso = true, puedeTransportaSilla = true, coloresContraIndicados = #{"Rojo", "Verde flour"})
+    assert.that(reservaExigente.puedeSerCumplidaPorUn(combiAdaptable))
+  }
+
+  test "Reserva que falla por capacidad insuficiente" {
+    const reservaCapacidadInsuficiente = new Reserva(cantPersonas = 5, distanciaARecorrer = 200, tiempoMaximoViaje = 2, 
+                                            necesitaVehiculoNoRuidoso = false, puedeTransportaSilla = false, coloresContraIndicados = #{})
+    const torinoReyDeCopas = new Torino(color = "Rojo", autonomia = 300, velocidadMax = 120)
+    assert.notThat(reservaCapacidadInsuficiente.puedeSerCumplidaPorUn(torinoReyDeCopas))
+  }
+
+  test "Reserva que falla por autonomía insuficiente" {
+    const reservaAutonomiaInsuficiente = new Reserva(cantPersonas = 5, distanciaARecorrer = 195, tiempoMaximoViaje = 2, 
+                                            necesitaVehiculoNoRuidoso = false, puedeTransportaSilla = false, coloresContraIndicados = #{})
+    const economicoXeneise = new Economico()
+    economicoXeneise.agregarAdaptaciones(cañonEscapeSilencioso)
+    assert.notThat(reservaAutonomiaInsuficiente.puedeSerCumplidaPorUn(economicoXeneise))
+  }
+
+  test "Reserva que falla por velocidad insuficiente" {
+    const reservaVelocidadInsuficiente = new Reserva(cantPersonas = 5, distanciaARecorrer = 200, tiempoMaximoViaje = 1, 
+                                            necesitaVehiculoNoRuidoso = false, puedeTransportaSilla = false, coloresContraIndicados = #{})
+    const economicoMillonario = new Economico()
+    assert.notThat(reservaVelocidadInsuficiente.puedeSerCumplidaPorUn(economicoMillonario))
+  }
+
+  test "Reserva que falla por color contraindicado" {
+    const reservaFallaColorContraIndicado = new Reserva(cantPersonas = 4, distanciaARecorrer = 150, tiempoMaximoViaje = 1.5, 
+                                            necesitaVehiculoNoRuidoso = false, puedeTransportaSilla = false, coloresContraIndicados = #{"Rojo"})
+    const torinoReyDeCopas = new Torino(color = "Rojo", autonomia = 300, velocidadMax = 120)
+    assert.notThat(reservaFallaColorContraIndicado.puedeSerCumplidaPorUn(torinoReyDeCopas))
+  }
+
+  test "Reserva que falla por necesitar transportar silla de ruedas" {
+    const reservaFallaSillaRueda = new Reserva(cantPersonas = 5, distanciaARecorrer = 150, tiempoMaximoViaje = 1.5, 
+                                            necesitaVehiculoNoRuidoso = false, puedeTransportaSilla = true, coloresContraIndicados = #{})
+    const economicoMillonario = new Economico()
+    assert.notThat(reservaFallaSillaRueda.puedeSerCumplidaPorUn(economicoMillonario))
+  }
+
+  test "Reserva que falla por necesitar un vehículo silencioso" {
+    const reservaFallaSillaRueda = new Reserva(cantPersonas = 5, distanciaARecorrer = 150, tiempoMaximoViaje = 1.5, 
+                                            necesitaVehiculoNoRuidoso = true, puedeTransportaSilla = false, coloresContraIndicados = #{})
+    const economicoMillonario = new Economico()
+    assert.notThat(reservaFallaSillaRueda.puedeSerCumplidaPorUn(economicoMillonario))
+  }
 }
