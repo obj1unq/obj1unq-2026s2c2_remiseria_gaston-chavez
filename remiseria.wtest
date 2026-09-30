@@ -14,4 +14,68 @@ describe "Remisería ChasquiCoop" {
     assert.that(torinoReyDeCopas.esRuidoso())
   }
 
+  test "Torino academia" {
+    const torinoReyDeCopas = new Torino(color = "Celeste", autonomia = 250, velocidadMax = 110)
+    assert.equals("Celeste", torinoReyDeCopas.color())
+    assert.equals(250, torinoReyDeCopas.autonomia())
+    assert.equals(110, torinoReyDeCopas.velocidadMax())
+    assert.equals(4, torinoReyDeCopas.capacidad())
+    assert.notThat(torinoReyDeCopas.puedeLlevarSillaDeRueda())
+    assert.that(torinoReyDeCopas.esRuidoso())
+  }
+
+  test "Economico cuervo" {
+    const economicoCuervo = new Economico()
+    economicoCuervo.agregarAdaptaciones(tanqueExtraDeGas)
+    economicoCuervo.agregarAdaptaciones(tranportadorSillaRuedas)
+    assert.equals("Beige", economicoCuervo.color())
+    assert.equals(380, economicoCuervo.autonomia())
+    assert.equals(80, economicoCuervo.velocidadMax())
+    assert.equals(3, economicoCuervo.capacidad())
+    assert.that(economicoCuervo.puedeLlevarSillaDeRueda())
+    assert.notThat(economicoCuervo.esRuidoso())
+  }
+
+  test "Economico xeneise" {
+    const economicoXeneise = new Economico()
+    economicoXeneise.agregarAdaptaciones(cañonEscapeSilencioso)
+    assert.equals("Beige", economicoXeneise.color())
+    assert.equals(190, economicoXeneise.autonomia())
+    assert.equals(115, economicoXeneise.velocidadMax())
+    assert.equals(5, economicoXeneise.capacidad())
+    assert.notThat(economicoXeneise.puedeLlevarSillaDeRueda())
+    assert.notThat(economicoXeneise.esRuidoso())
+  }
+
+  test "Economico millonario" {
+    const economicoMillonario = new Economico()
+    assert.equals("Beige", economicoMillonario.color())
+    assert.equals(200, economicoMillonario.autonomia())
+    assert.equals(120, economicoMillonario.velocidadMax())
+    assert.equals(5, economicoMillonario.capacidad())
+    assert.notThat(economicoMillonario.puedeLlevarSillaDeRueda())
+    assert.that(economicoMillonario.esRuidoso())
+  }
+
+  test "combi: motor urbano e interior accesible" {
+    combiAdaptable.interior(accessible)
+    combiAdaptable.motor(urbano)
+    assert.equals("Celeste", combiAdaptable.color())
+    assert.equals(1000, combiAdaptable.autonomia())
+    assert.equals(130, combiAdaptable.velocidadMax())
+    assert.equals(5, combiAdaptable.capacidad())
+    assert.that(combiAdaptable.puedeLlevarSillaDeRueda())
+    assert.notThat(combiAdaptable.esRuidoso())
+  }
+
+  test "combi: motor deportivo e interior espacioso" {
+    combiAdaptable.interior(espacioso)
+    combiAdaptable.motor(deportivo)
+    assert.equals("Celeste", combiAdaptable.color())
+    assert.equals(400, combiAdaptable.autonomia())
+    assert.equals(230, combiAdaptable.velocidadMax())
+    assert.equals(7, combiAdaptable.capacidad())
+    assert.notThat(combiAdaptable.puedeLlevarSillaDeRueda())
+    assert.that(combiAdaptable.esRuidoso())
+  }
 }

@@ -27,8 +27,8 @@ object deportivo {
       return 230
     }
 
-    method esRuidoso() {
-      return true
+    method esSilencioso() {
+      return false
     }
 }
 
@@ -41,7 +41,7 @@ object urbano {
       return 130
     }
 
-    method esRuidoso() {
-      return false
+    method esSilencioso() {
+      return true
     }
 }

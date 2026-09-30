@@ -1,6 +1,7 @@
 import objectCombi.*
 import adaptaciones.*
 
+//Punto 1 Los vehiculos --------------------------
 class Torino {
 var color 
 var velocidadMax 
@@ -34,11 +35,15 @@ var autonomia
 class Economico {
   const adaptaciones = #{}
   const capacidadBase = 5
-  const color = "beige"
+  const color = "Beige"
   const autonomiaBase = 200
 
   method capacidad() {
     return capacidadBase - self.capacidadConAdaptaciones()
+  }
+
+  method agregarAdaptaciones(adaptacion) {
+    adaptaciones.add(adaptacion)
   }
 
   method capacidadConAdaptaciones() {
@@ -46,7 +51,7 @@ class Economico {
   }
 
   method velocidadMax() {
-    return adaptaciones.map({adaptacion => adaptacion.velocidadMax()}).minIfEmpty(120)
+    return adaptaciones.map({adaptacion => adaptacion.velocidadMax()}).minIfEmpty({120})
   }
 
   method color() {
@@ -58,11 +63,11 @@ class Economico {
   }
 
   method esRuidoso() {
-    return adaptaciones.any({adaptacion => adaptacion.esRuidoso()})
+    return not adaptaciones.any({adaptacion => adaptacion.esSilencioso()})
   }
   
   method autonomia() {
-    return autonomiaBase - self.autonomiaConAdaptaciones()
+    return autonomiaBase + self.autonomiaConAdaptaciones()
   }
 
   method autonomiaConAdaptaciones() {
@@ -71,7 +76,7 @@ class Economico {
 }
 
 object combiAdaptable {
-  var property color = ""
+  var property color = "Celeste" //es reconfigurable el color
   var interior = espacioso
   var motor = deportivo
 
@@ -96,6 +101,12 @@ object combiAdaptable {
  }
 
  method esRuidoso() {
-   return motor.esRuidoso()
+   return not motor.esSilencioso()
+ }
+
+ method puedeLlevarSillaDeRueda() {
+   return interior.puedeLlevarSillaDeRueda()
  }
 }
+
+//Punto 2 Reservas --------------------------

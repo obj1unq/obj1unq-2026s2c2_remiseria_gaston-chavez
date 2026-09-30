@@ -11,12 +11,12 @@ object tranportadorSillaRuedas {
       return true
     }
 
-    method esRuidoso() {
-      //no influye
+    method esSilencioso() {
+      return false //no influye
     }
 
     method autonomia() {
-      return 20
+      return -20
     }
 }
 
@@ -33,8 +33,8 @@ object tanqueExtraDeGas {
       return false
     }
 
-    method esRuidoso() {
-      return false
+    method esSilencioso() {
+      return true
     }
 
     method autonomia() {
@@ -44,7 +44,7 @@ object tanqueExtraDeGas {
 
 object cañonEscapeSilencioso {
     method espacioOcupado() {
-      //no ocupa espacio
+      return 0 //no ocupa espacio
     }
 
     method velocidadMax() {
@@ -55,8 +55,8 @@ object cañonEscapeSilencioso {
       return false
     }
 
-    method esRuidoso() {
-      return false
+    method esSilencioso() {
+      return true
     }
 
     method autonomia() {
