@@ -114,7 +114,7 @@ class Reserva {
   var cantPersonas
   var distanciaARecorrer
   var tiempoMaximoViaje
-  var coloresContraIndicados
+  const coloresContraIndicados
   var necesitaVehiculoNoRuidoso
   var puedeTransportaSilla
 
@@ -161,5 +161,82 @@ class Reserva {
 
   method esVehiculoNoRuidoso(vehiculo) {
     return not necesitaVehiculoNoRuidoso or not vehiculo.esRuidoso()
+  }
+
+  method distanciaARecorrer() {
+    return distanciaARecorrer
+  }
+}
+
+//Parte 3 Surcusal ----------------------------------
+class Sucursal {
+  const flota = [] //tiene que ser una lista por si hay varios autos repetidos, si no hay repetidos podria ser un Set
+  const historialDeViajes = []
+
+  method agregarVehiculo(vehiculo) {
+    flota.add(vehiculo)
+  }
+
+  method sacarVehiculo(vehiculo) {
+    flota.remove(vehiculo)
+  }
+
+  method flotaQuePuedenCumplirReserva(reserva) {
+    return flota.filter({vehiculo => reserva.puedeSerCumplidaPorUn(vehiculo)})//devuelve los vehiculos que pueden cumplir con la reserva dada
+  }
+
+  method registrarViaje(vehiculo,reserva) {
+    self.validarSiVehiculoEstaEnFlota(vehiculo)
+    self.validarPuedeCumplirReserva(vehiculo,reserva)
+    const viaje = new Viaje(vehiculo = vehiculo, reserva = reserva)
+    historialDeViajes.add(viaje)
+    return viaje //revisar
+  }
+
+  method validarSiVehiculoEstaEnFlota(vehiculo) {
+    if (not flota.contains(vehiculo)) {
+      self.error("no se encuentra en la flota el vehiculo")
+    }
+  }
+
+  method validarPuedeCumplirReserva(vehiculo,reserva) {
+    if (not reserva.puedeSerCumplidaPorUn(vehiculo)) {
+      self.error("no puede cumplir la reserva el vehiculo")
+    }
+  }
+
+  method reservasDe(vehiculo) {
+    const  viajes = self.vehiculoParticipoEnViajes(vehiculo)
+    return viajes.map({viaje => viaje.reserva()})
+  }
+
+  method vehiculoParticipoEnViajes(vehiculo) {
+    return historialDeViajes.filter({viaje => viaje.vehiculo() == vehiculo})
+  }
+
+  method distanciaTotalRecorridoDe(vehiculo) {
+    const  reservas = self.reservasDe(vehiculo)
+    return reservas.sum({reserva => reserva.distanciaARecorrer()})
+  }
+
+  method flota() {
+    return flota
+  }
+
+  method historialDeViajes() {
+    return historialDeViajes
+  }  
+}
+
+class Viaje {
+  const vehiculo
+  const reserva
+
+  method vehiculo() {
+    return vehiculo
+  }
+
+  method reserva() {
+    return reserva
   }
 }
