@@ -190,7 +190,6 @@ class Sucursal {
     self.validarPuedeCumplirReserva(vehiculo,reserva)
     const viaje = new Viaje(vehiculo = vehiculo, reserva = reserva)
     historialDeViajes.add(viaje)
-    return viaje //revisar
   }
 
   method validarSiVehiculoEstaEnFlota(vehiculo) {
